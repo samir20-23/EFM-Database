@@ -2,20 +2,30 @@
 
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Hike;
+use App\Models\Review;
+use App\Models\Suggestion;
 
 class DatabaseSeeder extends Seeder
-{
-    /**
-     * Seed the application's database.
-     */
+{ 
     public function run(): void
     {
-        // User::factory(10)->create();
-        $this->call([
-        UserSeeder::class,
-         HikeSeeder::class,
-         ReviewSeeder::class,
-         SuggestionSeeder::class,
-        ]);
+        //  methode 1 to insert
+        // $this->call([
+        // UserSeeder::class,
+        //  HikeSeeder::class,
+        //  ReviewSeeder::class,
+        //  SuggestionSeeder::class,
+        // ]);
+
+        //  methode 2 to insert
+        User::factory(10)->create();
+ 
+        Hike::factory(5)->create();
+ 
+        Review::factory(15)->create();
+ 
+        Suggestion::factory(20)->create();
     }
 }

@@ -1,0 +1,43 @@
+classDiagram
+    class Membre {
+        +int id
+        +string nom
+        +string email
+        +string password
+        +hasOne(Randonnee)
+    }
+
+    class Randonnee {
+        +int id
+        +string titre
+        +string description
+        +int membre_id
+        +belongsTo(Membre)
+        +hasMany(Avis)
+    }
+
+    class Avis {
+        +int id
+        +string commentaire
+        +int note
+        +int randonnee_id
+        +belongsTo(Randonnee)
+        +belongsToMany(Suggestion)
+    }
+
+    class Suggestion {
+        +int id
+        +string description
+        +belongsToMany(Avis)
+    }
+
+    class Avis_Suggestion {
+        +int avis_id
+        +int suggestion_id
+    }
+
+    Membre "1" --|> "1" Randonnee
+    Randonnee "1" --|> "*" Avis
+    Avis "*" --|> "*" Suggestion
+    Avis "*" --|> "*" Avis_Suggestion
+    Suggestion "*" --|> "*" Avis_Suggestion

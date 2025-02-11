@@ -1,0 +1,27 @@
+classDiagram
+    class User {
+        +id: int
+        +name: string
+    }
+
+    class Hike {
+        +id: int
+        +title: string
+        +description: string
+        +viewCount: int
+    }
+
+    class Review {
+        +id: int
+        +content: string
+    }
+
+    class Suggestion {
+        +id: int
+        +content: string
+    }
+
+    User "1" --o "many" Hike : creates
+    User "1" --o "many" Review : writes
+    Hike "1" --o "many" Review : receives
+    Review "1" --o "many" Suggestion : contains
