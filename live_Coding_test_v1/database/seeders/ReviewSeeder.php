@@ -22,13 +22,15 @@ class ReviewSeeder extends Seeder
         Review::create([
             'content' => 'It was too difficult, and I didn\'t enjoy the hike.',
             'views' => '50',
-            'hike_id' => 1, // Assuming hike with ID 2 exists
+            'hike_id' => 2, // Assuming hike with ID 2 exists
         ]);
 
         Review::create([
             'content' => 'A great trail for beginners. Beautiful scenery all around.',
             'views' => '300',
-            'hike_id' => 1, // Assuming hike with ID 3 exists
+            'hike_id' => 3, // Assuming hike with ID 3 exists
         ]);
     }
 }
+
+

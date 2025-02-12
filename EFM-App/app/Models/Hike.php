@@ -8,22 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Hike extends Model
 {
     use HasFactory;
+protected $fillable = ['id','title','description','views','user_id'];
+public function user(){
+    return $this->belongsTo(User::class);
+}
 
-    protected $fillable = ['title', 'description', 'img_path', 'location', 'views', 'user_id'];
-    
-   
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
- 
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-    
-    public function averageViews()
-{
-    return $this->reviews()->avg('views');
+public function review(){
+    return $this->hasMany(Review::class);
 }
+
 }
+
