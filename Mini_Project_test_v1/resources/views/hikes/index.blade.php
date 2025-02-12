@@ -1,39 +1,54 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h2 style="color: black;">Hikes</h2>
-            @foreach ($hikes as $hike)
-              <div class="card mb-4" style="border: 1px solid black; padding: 10px;">
-                <div class="card-body">
-                    <p><img src="#" style="border-radius:50px; border:1px solid black ; with:90px;" /> {{ $hike->user ? $hike->user->name : 'Unknown' }}</p>
-                    <h3 class="card-title">{{ $hike->title }}</h3>
-                    <p class="card-text">{{ $hike->description }}</p>
-                    <p style="color:red;"><strong>Views:</strong> {{ $hike->views }}</p>
-                    @if (!empty($recommended[$hike->id]))
-                        <span class="badge bg-success">{{ $recommended[$hike->id] }}</span>
-                    @endif
-                    <hr>
-                    <div style="border: 1px solid blue; padding: 10px; margin-left: 20px;">
-                        <h5 style="color: blue;">Reviews:</h5>
-                        @foreach ($hike->reviews as $review)
-                            <p><strong>#{{ $review->user ? $review->user->name : 'Anonymous' }}</strong>: {{ $review->content }}</p>
-                            <p class="small text-muted">Views: {{ $review->views }}</p>
-                            @if ($review->suggestions->count() > 0)
-                                <div style="border: 1px solid purple; padding: 10px; margin-left: 40px;">
-                                    <h5 style="color: purple;">Suggestions:</h5>
-                                    <ul>
-                                        @foreach ($review->suggestions as $suggestion)
-                                            <li>{{ $suggestion->content }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+<div class="container mt-4">
+    <h2 class="mb-4">Hike Proposals</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Hike Name</th>
+                    <th>User</th>
+                    <th>Views</th>
+                    <th>Reviews (Views)</th>
+                    <th>Suggestions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($hikes as $hike)
+                <tr>
+                    <td>{{ $hike->title }}</td>
+                    <td>{{ $hike->user ? $hike->user->name : 'Unknown' }}</td>
+                    <td>{{ $hike->views }}</td>
+                    <td>
+                        @foreach($hike->reviews as $review)
+                        <div class="mb-2 p-2 border rounded bg-light">
+                            <p class="mb-1"><strong>{{ $review->content }}</strong> ({{ $review->views }} views)</p>
+                            <a href="{{ route('reviews.edit', $review->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                            <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
                         @endforeach
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        
+                    </td>
+                    <td>
+                        <ul class="list-unstyled">
+                            @foreach($hike->reviews as $review)
+                                @foreach($review->suggestions as $suggestion)
+                                    <li class="p-1 border-bottom">{{ $suggestion->content }}</li>
+                                @endforeach
+                            @endforeach
+                        </ul>
+                        @if(!empty($recommended[$hike->id]))
+                            <div class="alert alert-info mt-2"><strong>{{ $recommended[$hike->id] }}</strong></div>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
+</div>
 @endsection

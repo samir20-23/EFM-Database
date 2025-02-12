@@ -1,75 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-
-                @foreach ($hikes as $hike)
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-header d-flex align-items-center">
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode($hike->user->name ?? 'Unknown') }}&background=random&color=fff&size=50"
-                                class="rounded-circle me-2" width="50" height="50" alt="User">
-                            <div>
-                                <h6 class="mb-0"><strong>{{ $hike->user->name ?? 'Unknown User' }}</strong></h6>
-                                <small class="text-muted">{{ $hike->created_at->diffForHumans() }}</small>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <h5>{{ $hike->title }}</h5>
-                            <p>{{ $hike->description }}</p>
-                            @if ($hike->img_path)
-                                <img src="{{ asset($hike->img_path) }}" class="img-fluid rounded mb-3"
-                                    alt="{{ $hike->title }}">
-                            @endif
-
-                            <p class="text-muted"><i class="bi bi-eye"></i> {{ $hike->views }} views</p>
-                            <div class="d-flex justify-content-between">
-                                <button class="btn btn-outline-primary btn-sm"><i class="bi bi-hand-thumbs-up"></i>
-                                    Like</button>
-                                <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="collapse"
-                                    data-bs-target="#comments-{{ $hike->id }}">
-                                    <i class="bi bi-chat"></i> Comment
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-light">
-                            <div class="collapse mt-2" id="comments-{{ $hike->id }}">
-                                <h6 class="mb-2"><i class="bi bi-chat-left-text"></i> Comments</h6>
-
-                                @foreach ($hike->reviews as $review)
-                                    <div class="mb-3">
-                                        <div class="d-flex align-items-center">
-                                            <img src="https://ui-avatars.com/api/?name={{ urlencode($review->user->name ?? 'User') }}&background=random&color=fff&size=40"
-                                                class="rounded-circle me-2" width="40" height="40" alt="User">
-                                            <div>
-                                                <strong>{{ $review->user->name ?? 'Anonymous' }}</strong>
-                                                <p class="mb-1">{{ $review->content }}</p>
-                                                <small class="text-muted"><i class="bi bi-eye"></i> {{ $review->views }}
-                                                    views</small>
-                                            </div>
-                                        </div>
+    <div class="container">
+        <h2 style="color: black;">Hikes</h2>
+            @foreach ($hikes as $hike)
+              <div class="card mb-4" style="border: 1px solid black; padding: 10px;">
+                <div class="card-body">
+                    <p><img src="#" style="border-radius:50px; border:1px solid black ; with:90px;" /> {{ $hike->user ? $hike->user->name : 'Unknown' }}</p>
+                    <h3 class="card-title">{{ $hike->title }}</h3>
+                    <p class="card-text">{{ $hike->description }}</p>
+                    <p style="color:red;"><strong>Views:</strong> {{ $hike->views }}</p>
+                    @if (!empty($recommended[$hike->id]))
+                        <span class="badge bg-success">{{ $recommended[$hike->id] }}</span>
+                    @endif
+                    <hr>
+                    <div style="border: 1px solid blue; padding: 10px; margin-left: 20px;">
+                        <h5 style="color: blue;">Reviews:</h5>
+                        @foreach ($hike->reviews as $review)
+                            <p><strong>#{{ $review->user ? $review->user->name : 'Anonymous' }}</strong>: {{ $review->content }}</p>
+                            <p class="small text-muted">Views: {{ $review->views }}</p>
+                            @if ($review->suggestions->count() > 0)
+                                <div style="border: 1px solid purple; padding: 10px; margin-left: 40px;">
+                                    <h5 style="color: purple;">Suggestions:</h5>
+                                    <ul>
                                         @foreach ($review->suggestions as $suggestion)
-                                            <div class="ms-5 mt-2 p-2 bg-light border rounded">
-                                                <small
-                                                    class="text-muted"><strong>{{ $suggestion->user->name ?? 'Anonymous' }}</strong>
-                                                    replied:</small>
-                                                <p class="mb-1">{{ $suggestion->content }}</p>
-                                            </div>
+                                            <li>{{ $suggestion->content }}</li>
                                         @endforeach
-                                    </div>
-                                @endforeach
-                                <div class="d-flex align-items-center mt-3">
-                                    <input type="text" class="form-control" placeholder="Write a comment...">
-                                    <button class="btn btn-primary ms-2"><i class="bi bi-send"></i></button>
+                                    </ul>
                                 </div>
-                            </div>
-                        </div>
-
+                            @endif
+                        @endforeach
                     </div>
-                @endforeach
-
+                </div>
             </div>
-        </div>
+            @endforeach
+        
     </div>
 @endsection

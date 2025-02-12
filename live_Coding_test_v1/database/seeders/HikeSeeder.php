@@ -42,3 +42,4 @@ class HikeSeeder extends Seeder
         ]);
     }
 }
+

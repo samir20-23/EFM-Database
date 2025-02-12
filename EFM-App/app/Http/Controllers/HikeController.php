@@ -3,64 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hike;
-use Illuminate\Http\Request;
+use App\Services\HikeService;
 
 class HikeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $hikeService; 
+    protected $recommended; 
+
+
+    public function __construct(HikeService $hikeService)
+    {
+        $this->hikeService = $hikeService;
+    }
+
     public function index()
-    { 
-        $hikes = Hike::with(['user', 'reviews.suggestions'])->latest()->get();
-        return view('hikes.index', compact('hikes'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
     {
-        //
+        $hikes = Hike::with('reviews')->get();
+    
+        $recommended = [];
+    
+        foreach ($hikes as $hike) {
+            if ($hike->reviews->count() > 10) {
+                $recommended[$hike->id] = '🔥🔥🔥🔥 Recommended';
+            } else {
+                $recommended[$hike->id] = null;
+            }
+        }
+    
+        return view('hikes.index', compact('hikes', 'recommended'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Hike $hike)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Hike $hike)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Hike $hike)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Hike $hike)
-    {
-        //
-    }
+    
+    
+    
 }
+
+      

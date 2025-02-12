@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
-    protected $fillable = ['content','views','hike_id'];
+    protected $fillable = ['id','content','views','hike_id'];
  
     public function hike(){
         return $this->belongsTo(Hike::class);

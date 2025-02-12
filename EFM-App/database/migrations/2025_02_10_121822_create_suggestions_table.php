@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('suggestions', function (Blueprint $table) {
             $table->id();
             $table->string('content'); 
+            $table->integer('views')->default(0);  
             $table->foreignId('review_id')->constrained('reviews')->onDelete('cascade');
             $table->timestamps();
         });
