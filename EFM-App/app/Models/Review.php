@@ -8,14 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
-protected $fillable = ['content','views','hike_id'];
-public function hike(){
-    return $this->belongsTo(Hike::class);
-} 
-public function suggestion() {
-    return $this->hasMany(Suggestion::class);
-}
-
-
-
+    protected $fillable = ['content','views','hike_id'];
+ 
+    public function hike(){
+        return $this->belongsTo(Hike::class);
+    }
+    public function suggestions(){
+        return $this->hasMany(Suggestion::class);
+    }
 }

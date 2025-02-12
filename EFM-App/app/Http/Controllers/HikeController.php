@@ -7,7 +7,9 @@ use App\Services\HikeService;
 
 class HikeController extends Controller
 {
-    protected $hikeService;
+    protected $hikeService; 
+    protected $recommended; 
+
 
     public function __construct(HikeService $hikeService)
     {
@@ -16,19 +18,23 @@ class HikeController extends Controller
 
     public function index()
     {
-        $hikes =  $this->hikeService->getHikesWithReviews();
-
+        $hikes = Hike::with('reviews')->get();
+    
         $recommended = [];
-
+    
         foreach ($hikes as $hike) {
-            if ($hike->review->count() > 10) {
-                $recommended[$hike->id] = '🔥🔥🔥🔥🔥✨✨recommended';
+            if ($hike->reviews->count() > 10) {
+                $recommended[$hike->id] = '🔥🔥🔥🔥 Recommended';
             } else {
                 $recommended[$hike->id] = null;
             }
         }
-
-      return view('hikes.index',compact('hikes','recommended'));
+    
+        return view('hikes.index', compact('hikes', 'recommended'));
     }
+    
+    
+    
 }
- 
+
+      
