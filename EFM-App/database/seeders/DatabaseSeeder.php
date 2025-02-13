@@ -20,12 +20,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
        // //  methode 2 to insert
-        User::factory(10)->create();
+        // User::factory(10)->create();
  
-        Hike::factory(5)->create();
+        // Hike::factory(5)->create();
  
-        Review::factory(15)->create();
+        // Review::factory(15)->create();
  
-        Suggestion::factory(20)->create();
+        // Suggestion::factory(20)->create();
     }
 }

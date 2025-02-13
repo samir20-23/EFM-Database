@@ -3,63 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Models\Suggestion;
+use App\Services\HikeService;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $hikeService;
+
+    public function __construct(HikeService $hikeService)
     {
-        //
+        $this->hikeService = $hikeService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+ 
+    public function edit($id)
     {
-        //
+        $review = Review::with('suggestions')->findOrFail($id);
+        $allSuggestions = Suggestion::all();
+        return view('reviews.edit', compact('review', 'allSuggestions'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+   
+    public function update(Request $request, $id)
     {
-        //
+        $review = Review::findOrFail($id);
+        $suggestions = $request->input('suggestions', []);
+        $this->hikeService->updateReviewSuggestions($review, $suggestions);
+        return redirect()->back()->with('success', 'Review suggestions updated successfully.');
+    }
+ 
+    public function destroy($id)
+    {
+        $review = Review::findOrFail($id);
+        $review->delete();
+        return redirect()->back()->with('success', 'Review deleted successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Review $review)
+   
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Review $review)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Review $review)
-    {
-        //
+        $review = Review::with('suggestions')->findOrFail($id); 
+        $this->hikeService->incrementSingleReviewView($review);
+        return view('reviews.show', compact('review'));
     }
 }

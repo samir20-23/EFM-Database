@@ -1,39 +1,76 @@
 @extends('layouts.app')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+@endsection
+
 @section('content')
-    <div class="container">
-        <h2 style="color: black;">Hikes</h2>
-            @foreach ($hikes as $hike)
-              <div class="card mb-4" style="border: 1px solid black; padding: 10px;">
-                <div class="card-body">
-                    <p><img src="#" style="border-radius:50px; border:1px solid black ; with:90px;" /> {{ $hike->user ? $hike->user->name : 'Unknown' }}</p>
-                    <h3 class="card-title">{{ $hike->title }}</h3>
-                    <p class="card-text">{{ $hike->description }}</p>
-                    <p style="color:red;"><strong>Views:</strong> {{ $hike->views }}</p>
-                    @if (!empty($recommended[$hike->id]))
-                        <span class="badge bg-success">{{ $recommended[$hike->id] }}</span>
-                    @endif
-                    <hr>
-                    <div style="border: 1px solid blue; padding: 10px; margin-left: 20px;">
-                        <h5 style="color: blue;">Reviews:</h5>
-                        @foreach ($hike->reviews as $review)
-                            <p><strong>#{{ $review->user ? $review->user->name : 'Anonymous' }}</strong>: {{ $review->content }}</p>
-                            <p class="small text-muted">Views: {{ $review->views }}</p>
-                            @if ($review->suggestions->count() > 0)
-                                <div style="border: 1px solid purple; padding: 10px; margin-left: 40px;">
-                                    <h5 style="color: purple;">Suggestions:</h5>
-                                    <ul>
-                                        @foreach ($review->suggestions as $suggestion)
-                                            <li>{{ $suggestion->content }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        
-    </div>
+<div class="container">
+  <h1>Hikes</h1>
+  @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+  @endif
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Hike Title</th>
+        <th>Member</th>
+        <th>Hike Views</th>
+        <th>Reviews</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($hikes as $hike)
+      <tr>
+        <td>{{ $hike->title }}</td>
+        <td>{{ $hike->user->name }}</td>
+        <td>
+          {{ $hike->views }}
+          @if($recommended[$hike->id])
+            <span class="badge badge-success">{{ $recommended[$hike->id] }}</span>
+          @endif
+        </td>
+        <td>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Review Content</th>
+                <th>Review Views</th>
+                <th>Suggestions</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($hike->reviews as $review)
+              <tr>
+                <td>{{ $review->content }}</td>
+                <td>{{ $review->views }}</td>
+                <td>
+                  @foreach($review->suggestions as $suggestion)
+                    <span class="badge badge-info">{{ $suggestion->content }}</span>
+                  @endforeach
+                </td>
+                <td>
+                  <a href="{{ route('reviews.show', $review->id) }}" class="btn btn-info btn-sm">Show</a>
+                  <a href="{{ route('reviews.edit', $review->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                  <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this review?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </td>
+        <td>
+          <a href="{{ route('hikes.show', $hike->id) }}" class="btn btn-info btn-sm">Show</a>
+        </td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+</div>
 @endsection
