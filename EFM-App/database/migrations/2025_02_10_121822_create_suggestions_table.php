@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('content'); 
             $table->integer('views')->default(0);  
             $table->foreignId('review_id')->constrained('reviews')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

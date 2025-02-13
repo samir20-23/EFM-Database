@@ -1,0 +1,28 @@
+body {
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    margin-top: 20px;
+  }
+  
+  .table {
+    margin-bottom: 20px;
+  }
+  
+  .badge-success {
+    background-color: #28a745;
+  }
+  
+  .btn {
+    margin-right: 5px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+  

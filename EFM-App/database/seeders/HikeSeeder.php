@@ -20,7 +20,7 @@ class HikeSeeder extends Seeder
             'img_path' => '/images/hikes/tanger.png',
             'location' => 'tanger',
             'views' => '1500',
-            'user_id' => 1, // Assuming user with ID 1 exists
+            'user_id' => 1, 
         ]);
 
         Hike::create([
@@ -29,7 +29,7 @@ class HikeSeeder extends Seeder
             'img_path' => '/images/hikes/tanger.png',
             'location' => 'tanger',
             'views' => '500',
-            'user_id' => 2, // Assuming user with ID 2 exists
+            'user_id' => 2,  
         ]);
 
         Hike::create([
@@ -40,5 +40,14 @@ class HikeSeeder extends Seeder
             'views' => '1000',
             'user_id' => 1, // Assuming user with ID 1 exists
         ]);
+        Hike::create([
+            'title' => 'Mountain Adventure',
+            'description' => 'A thrilling hike up the highest mountain in the region.',
+            'img_path' => '/images/hikes/tanger.png',
+            'location' => 'tanger',
+            'views' => '1500',
+            'user_id' => 1, 
+        ]); 
+ 
     }
 }

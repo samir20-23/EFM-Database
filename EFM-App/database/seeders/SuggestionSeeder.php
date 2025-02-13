@@ -17,18 +17,47 @@ class SuggestionSeeder extends Seeder
         Suggestion::create([
             'content' => 'Consider adding more trail markers for better navigation.',
             'review_id' => 1, // Assuming review with ID 1 exists
+            'user_id' => 1, // Assuming review with ID 1 exists
         ]);
 
         Suggestion::create([
             'content' => 'The trail was too steep; perhaps add some resting spots.',
             'review_id' => 1, // Assuming review with ID 2 exists
+            'user_id' => 1, // Assuming review with ID 2 exists
+        ]);
+
+        Suggestion::create([
+            'content' => 'Great hike! Maybe include more benches for resting.',
+            'review_id' => 12, // Assuming review with ID 3 exists
+            'user_id' => 1, // Assuming review with ID 3 exists
+        ]);
+        Suggestion::create([
+            'content' => 'Consider adding more trail markers for better navigation.',
+            'review_id' => 11, // Assuming review with ID 1 exists
+            'user_id' => 1, // Assuming review with ID 1 exists
+        ]);
+
+        Suggestion::create([
+            'content' => 'The trail was too steep; perhaps add some resting spots.',
+            'review_id' => 11, // Assuming review with ID 2 exists
+            'user_id' => 1, // Assuming review with ID 2 exists
         ]);
 
         Suggestion::create([
             'content' => 'Great hike! Maybe include more benches for resting.',
             'review_id' => 1, // Assuming review with ID 3 exists
+            'user_id' => 1, // Assuming review with ID 3 exists
         ]);
-        
+        Suggestion::create([
+            'content' => 'Great hike! Maybe include more benches for resting.',
+            'review_id' => 1, // Assuming review with ID 3 exists
+            'user_id' => 1, // Assuming review with ID 3 exists
+        ]);
 
+        Suggestion::create([
+            'content' => 'Great hike! Maybe include more benches for resting.',
+            'review_id' => 1, // Assuming review with ID 3 exists
+            'user_id' => 1, // Assuming review with ID 3 exists
+        ]);
     }
 }

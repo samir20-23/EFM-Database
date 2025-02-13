@@ -16,9 +16,15 @@ class UserSeeder extends Seeder
         // Check if the test user already exists
         if (!User::where('email', 'test@example.com')->exists()) {
             User::create([
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-                'password' => Hash::make('password123'), // hashed password
+                'name' => 'samir',
+                'email' => 'samir@example.com',
+                'password' => Hash::make('samir123'), // hashed password
+                'email_verified_at' => now(), // optional email verification
+            ]);
+            User::create([
+                'name' => 'ahmed',
+                'email' => 'ahmed@example.com',
+                'password' => Hash::make('ahmed123'), // hashed password
                 'email_verified_at' => now(), // optional email verification
             ]);
         }
