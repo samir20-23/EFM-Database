@@ -87,6 +87,10 @@
         background-color: #0fc931; /* Green background for badges */
         font-size: 0.75em;
     }
+    .red{
+    color: rgba(93, 0, 255, 0.577);
+    background-color: red;
+  }
      </style>
 
  </head>
